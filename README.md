@@ -1,4 +1,4 @@
-# Abelian Sieve
+# Abelian Sieve v 2.0
 
 ## Speculative Index-Calculus Research for Elliptic Curve Discrete Logarithms
 
