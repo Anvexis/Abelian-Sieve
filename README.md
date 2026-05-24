@@ -1,353 +1,310 @@
-# Abelian Sieve v 2.0
 
-## Speculative Index-Calculus Research for Elliptic Curve Discrete Logarithms
+### A Heuristic Framework for Index Calculus on Isogeny Classes of Elliptic Curves
 
-> A theoretical and experimental framework exploring whether ECDLP instances can be lifted into Jacobians of specially constructed high-genus curves in order to recover index-calculus-like structure.
+> ⚠️ Research-level cryptographic exploration  
+> ❌ Not a working attack on secp256k1  
+> ✅ Experimental / theoretical framework for algebraic cryptanalysis
 
 ---
 
-# ⚠️ IMPORTANT DISCLAIMER
+# 📌 Overview
 
-This repository does **NOT** break secp256k1.
+The **Abelian Sieve** is a heuristic framework exploring whether the Elliptic Curve Discrete Logarithm Problem (ECDLP) can admit **index-calculus-like behavior** when lifted into specially structured isogeny classes of elliptic curves and Jacobian representations.
+
+Instead of claiming a general subexponential algorithm for ECDLP, this work investigates a more precise question:
+
+> Under what algebraic conditions does ECDLP become reducible to sparse linear relations over a lifted divisor space?
+
+---
+
+# ⚠️ Important Disclaimer
 
 This project:
-- is speculative research,
-- contains unproven assumptions,
-- explores toy-model constructions,
-- and should not be interpreted as a practical cryptanalytic attack.
 
-There is currently **no known practical subexponential algorithm** for general ECDLP on standard curves such as:
-- secp256k1,
-- NIST P-256,
-- Curve25519.
-
-Modern elliptic curve cryptography remains secure.
+- ❌ does NOT break secp256k1
+- ❌ does NOT provide a subexponential ECDLP algorithm
+- ❌ does NOT contradict current cryptographic security assumptions
+- ✅ is a **heuristic / theoretical model**
+- ✅ is intended for **research in algebraic cryptanalysis**
 
 ---
 
-# Motivation
+# 🧱 Motivation
 
-Classical index calculus methods achieve subexponential complexity for:
-- integer factorization,
-- finite-field discrete logarithms,
-- number field sieve variants.
+Classical ECC security relies on the absence of:
 
-However, elliptic curve groups lack the natural factor-base structure that makes these methods possible.
+- factor base structures
+- smoothness phenomena
+- algebraic decomposition of group elements
+- efficient lifting into structured algebraic spaces
 
-The central research question of this project is:
+Current best attacks remain:
 
-> Can one artificially construct a usable factor-base structure for elliptic curves by lifting ECDLP into Jacobians of carefully engineered high-genus covering curves?
+:contentReference[oaicite:0]{index=0}
 
----
-
-# Core Idea
-
-Instead of attacking an elliptic curve directly:
-
-```math
-E / \mathbb{F}_q
-```
-
-the framework investigates lifting ECDLP into Jacobians:
-
-```math
-\mathrm{Jac}(C_g)
-```
-
-of specially constructed curves:
-
-```math
-C_g
-```
-
-whose Jacobians contain the original elliptic curve as an isogeny factor.
-
-The proposed mechanism relies on:
-- controlled isogeny constructions,
-- high-genus covers,
-- divisor smoothness,
-- p-adic lifting,
-- sparse relation collection,
-- and Jacobian arithmetic.
+The Abelian Sieve explores whether these barriers can be weakened in **restricted algebraic settings**.
 
 ---
 
-# Abelian Sieve v2.0
+# 🧩 Core Idea
 
-Version 2.0 significantly revises the original proposal and addresses several major theoretical objections.
+The framework investigates whether ECDLP can be transformed into:
 
-The framework no longer assumes:
-- arbitrary universal coverings,
-- unrestricted smoothness heuristics,
-- or efficient generic Jacobian decompositions.
+:contentReference[oaicite:1]{index=1}
 
-Instead, the construction is restricted to specialized curve families with explicit algebraic structure.
+via:
+
+- isogeny graph navigation
+- Jacobian lifting
+- biased smoothness distributions
+- restricted factor bases
 
 ---
 
-# Mathematical Architecture
+# 🌐 Isogeny-Based Structure
 
-## 1. Isogeny-Guided Lifting
+## Isogeny Graph Model
 
-Rather than constructing coverings for arbitrary elliptic curves, the framework investigates curves related through small-degree isogenies:
+We consider a graph:
 
-```math
-\phi : E \rightarrow E'
-```
-
-using modular curves:
-
-```math
-X_0(\ell)
-```
-
-for small primes:
-
-```math
-\ell
-```
-
-The high-genus covering curves are chosen such that:
-
-```math
-\mathrm{Jac}(C_g)
-\sim
-E \times A
-```
+:contentReference[oaicite:2]{index=2}
 
 where:
-- `A` is an auxiliary abelian variety,
-- and the projection onto `E` is explicitly computable.
+- vertices are elliptic curves over finite fields
+- edges are ℓ-isogenies
+
+A path:
+
+:contentReference[oaicite:3]{index=3}
+
+represents a controlled algebraic transformation of the curve.
 
 ---
 
-## 2. Controlled High-Genus Covers
+## Key Question
 
-The framework studies special curve families such as:
+Can such paths be made:
 
-```math
-y^\ell = f(x)
-```
+:contentReference[oaicite:4]{index=4}
 
-including:
-- cyclic covers,
-- Artin–Schreier constructions,
-- superelliptic curves,
-- and curves with large automorphism groups.
-
-These families admit:
-- structured Jacobian arithmetic,
-- explicit divisor representations,
-- and potentially smoother decomposition behavior.
+If yes, then ECDLP structure may change significantly.
 
 ---
 
-## 3. Ascending Smoothness
+# 🔢 Factor Base Construction
 
-The key heuristic is the concept of **ascending smoothness**.
-
-Instead of decomposing directly in the elliptic curve group, divisors are:
-1. lifted into the Jacobian,
-2. deformed through kernel walks,
-3. transformed into equivalent divisors,
-4. and tested for smooth decomposition over a factor base.
-
-The factor base consists of small-degree divisors:
-
-```math
-(P) - (\infty)
-```
-
-with bounded norm and bounded field degree.
-
----
-
-## 4. p-adic Divisor Deformation
-
-The framework investigates whether divisors can be:
-- lifted into characteristic zero,
-- decomposed via polynomial factorization,
-- and reduced back into finite characteristic.
-
-This idea is inspired by:
-- number field sieve techniques,
-- p-adic lifting methods,
-- and divisor arithmetic on algebraic curves.
-
----
-
-## 5. Jacobian Arithmetic
-
-The project explores arithmetic using:
-- Mumford representations,
-- Cantor reduction,
-- Kummer surfaces,
-- theta-function methods,
-- and structured superelliptic Jacobians.
-
-Target complexity for divisor arithmetic:
-
-```math
-O(g^2)
-```
-
-field operations for carefully chosen curve families.
-
----
-
-# Complexity Goal
-
-The speculative target complexity is:
-
-```math
-L_q(1/3,c)
-=
-\exp\left(
-(c+o(1))
-(\log q)^{1/3}
-(\log\log q)^{2/3}
-\right)
-```
-
-analogous to Number Field Sieve behavior.
-
-This complexity claim remains entirely hypothetical.
-
----
-
-# Why secp256k1 Is NOT Broken
-
-Even under the assumptions of Abelian Sieve v2.0:
-
-- constructing the required isogenies remains difficult,
-- extension-field lifting introduces major overhead,
-- divisor smoothness is unproven at scale,
-- Jacobian arithmetic constants are enormous,
-- and no practical attack is known.
-
-For secp256k1 specifically:
-- no efficient covering construction is known,
-- no usable factor base is known,
-- and the proposed framework does not yield a practical solver.
-
----
-
-# Repository Goals
-
-This repository exists to:
-- formalize speculative ideas,
-- build toy-model implementations,
-- test divisor smoothness experimentally,
-- explore Jacobian arithmetic,
-- and invite mathematical criticism.
-
----
-
-# Repository Structure
+On a target curve \(E_k\), we define:
 
 ```text
-/papers
-    speculative papers and mathematical notes
+F_k = { P ∈ E_k(F_q) | x(P) < B }
 
-/toy-models
-    small-field demonstrations
+Where:
 
-/jacobians
-    Jacobian arithmetic experiments
+B = smoothness bound
+F_k acts as a "pseudo-prime basis"
 
-/divisors
-    divisor representations and reductions
+This is analogous to factor bases in:
 
-/smoothness
-    smoothness heuristics and experiments
+Number Field Sieve
+Function Field Sieve
 
-/linalg
-    sparse linear algebra prototypes
+but adapted to elliptic curve geometry.
 
-/cpp
-    experimental C++ implementations
+🔄 Isogeny Lift
 
-/sage
-    SageMath verification scripts
+A point is lifted via:
 
-/notes
-    discussions and open problems
-```
+Q
+k
+	​
 
----
+=φ
+k−1
+	​
 
-# Demonstration Implementation
+∘⋯∘φ
+0
+	​
 
-The repository includes toy-scale examples over very small finite fields.
+(Q
+0
+	​
 
-Example:
-- elliptic curves over `F_101`,
-- genus-2 lifting constructions,
-- divisor arithmetic via Mumford representation,
-- Cantor reduction,
-- smooth divisor decomposition,
-- sparse relation collection.
+)
 
-These examples are intended purely for:
-- educational purposes,
-- experimental validation,
-- and mathematical exploration.
+This creates a structured subset of points:
 
-They do NOT scale to cryptographically relevant curves.
+potentially biased in arithmetic distribution
+potentially higher smoothness density
+📊 Smoothness Assumption
+Heuristic Hypothesis
 
----
+We assume a distribution bias:
 
-# Related Research Areas
+Pr
+R∈S
+	​
 
-- Index Calculus
-- Number Field Sieve
-- Function Field Sieve
-- Weil Descent
-- Isogeny Theory
-- Jacobian Arithmetic
-- Semaev Summation Polynomials
-- Algebraic Geometry in Cryptography
-- p-adic Methods
-- Kummer Surfaces
+[R is smooth]≫Pr
+R∈E
+k
+	​
 
----
+	​
 
-# Research Philosophy
+[R is smooth]
 
-This project intentionally embraces speculative exploration.
+where:
 
-The goal is not sensationalism.
+S = lifted isogeny-derived subset
+E_k = full curve group
 
-Negative results, impossibility arguments, failed heuristics, and counterexamples are considered valuable outcomes.
+This is the central unproven assumption of the framework.
 
----
+🧮 Relation Collection
 
-# Contributing
+We generate relations of the form:
 
-Mathematical criticism and experimental validation are highly encouraged.
+[u]G+[v]Q=∑a
+i
+	​
 
-Especially valuable:
-- proofs of impossibility,
-- counterexamples,
-- smoothness estimates,
-- Jacobian decomposition analysis,
-- complexity critiques,
-- toy-model implementations,
-- and algebraic geometry insights.
+P
+i
+	​
 
----
 
-# License
+where:
 
-MIT License
+P
+i
+	​
 
----
+∈F
+k
+	​
 
-# Final Note
+coefficients lie in Z/NZ
 
-At present there is no evidence that Abelian Sieve v2.0 leads to a practical attack on modern elliptic curve cryptography.
+These relations form a sparse linear system.
 
-This repository should be viewed as:
-- a speculative research sandbox,
-- a mathematical exploration,
-- and a study of whether index-calculus-style structures can exist for elliptic curves under highly constrained conditions.
+🧠 Algorithm (Conceptual)
+Step 1 — Isogeny Path Construction
+
+Build a controlled chain of ℓ-isogenies:
+
+from base curve E₀
+to target curve Eₖ
+Step 2 — Lift Points
+
+Map:
+
+base points → lifted curve Eₖ
+Step 3 — Relation Sampling
+
+Generate random combinations:
+
+[u]G + [v]Q
+test for smooth decomposition
+Step 4 — Linear Algebra
+
+Solve sparse system:
+
+Wiedemann / Lanczos methods
+over Z/NZ
+Step 5 — Log Reconstruction
+
+Recover discrete logarithm via back-substitution.
+
+🧪 Experimental Setup (Toy Model)
+
+This framework can be tested on:
+
+small prime fields (p ≈ 10²–10⁴)
+low-degree isogenies (ℓ = 2,3,5)
+genus-2 toy Jacobians
+simplified curve families
+📉 Security Analysis
+Why this does NOT break secp256k1
+
+secp256k1 resists this framework because:
+
+❌ No known efficient isogeny navigation
+
+No polynomial-time pathfinding in its isogeny graph.
+
+❌ No proven smoothness bias
+
+Heuristic assumption remains unverified.
+
+❌ Factor base explosion
+
+Size scales beyond feasible bounds:
+
+∣F
+k
+	​
+
+∣≈L
+p
+	​
+
+(1/3)≫practical limits
+
+❌ Jacobian arithmetic cost
+
+Becomes intractable for large genus.
+
+🔬 Related Work
+
+This framework is inspired by:
+
+Index calculus (Adleman, DeMarrais, Huang)
+Semaev summation polynomials
+Gaudry’s ECC index calculus
+Diem’s function field attacks
+Isogeny-based cryptography (SIDH/SIKE)
+Weil descent attacks
+🚧 Open Problems
+Formal proof of smoothness bias in lifted spaces
+Complexity of isogeny navigation in structured families
+Efficient divisor representation in high-genus Jacobians
+Scalable sparse linear algebra over large modulus fields
+Construction of “rich” isogeny endpoints
+🔮 Research Direction
+
+The Abelian Sieve suggests that ECC security may depend on:
+
+absence of algebraic factorization structures in lifted representations
+
+Future breakthroughs in:
+
+algebraic geometry
+isogeny theory
+arithmetic statistics
+
+could significantly impact this landscape.
+
+📌 Conclusion
+
+The Abelian Sieve does NOT provide an attack on modern elliptic curve cryptography.
+
+Instead, it defines:
+
+a structured research framework for exploring when ECDLP could become index-calculus-reducible under isogeny-lifted algebraic representations.
+
+🧠 License
+
+For academic and research exploration only.
+
+No cryptographic guarantees or attack claims are made.
+
+✨ Author Notes
+
+This is an exploratory model at the intersection of:
+
+algebraic geometry
+computational number theory
+cryptographic hardness assumptions
+
+It is intended as a foundation for further theoretical research, not practical exploitation.
