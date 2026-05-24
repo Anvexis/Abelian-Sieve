@@ -110,202 +110,202 @@ Function Field Sieve
 
 but adapted to elliptic curve geometry.
 
-🔄 Isogeny Lift
+## 🔢 Factor Base Construction
 
-A point is lifted via:
-```
-Q
-k
+On a target curve \(E_k\), we define the factor base:
 
-=φ
-k−1
-	​
-
-∘⋯∘φ
-0
-	​
-
-(Q
-0
-	​
-
-)
-```
-This creates a structured subset of points:
-
-potentially biased in arithmetic distribution
-potentially higher smoothness density
-📊 Smoothness Assumption
-Heuristic Hypothesis
-
-We assume a distribution bias:
-```
-Pr
-R∈S
-	​
-[R is smooth]≫Pr
-R∈E
-k
-	​
-```
-	​
-
-[R is smooth]
+:contentReference[oaicite:0]{index=0}
 
 where:
 
-S = lifted isogeny-derived subset
-E_k = full curve group
+- \(B\) — smoothness bound  
+- \(F_k\) acts as a **pseudo-prime basis**
+
+This construction is analogous to classical factor bases in:
+
+- Number Field Sieve (NFS)  
+- Function Field Sieve (FFS)
+
+but adapted to elliptic curve geometry.
+
+---
+
+## 🔄 Isogeny Lift
+
+A point is lifted through an isogeny chain:
+
+:contentReference[oaicite:1]{index=1}
+
+This produces a structured subset of points on \(E_k\), which is:
+
+- potentially biased in arithmetic distribution  
+- potentially exhibiting higher smoothness density  
+
+---
+
+## 📊 Smoothness Assumption
+
+### Heuristic Hypothesis
+
+We assume a distributional bias:
+
+:contentReference[oaicite:2]{index=2}
+
+where:
+
+- \(S\) — subset induced by isogeny lifts  
+- \(E_k(F_q)\) — full elliptic curve group  
 
 This is the central unproven assumption of the framework.
 
-🧮 Relation Collection
+---
+
+## 🧮 Relation Collection
 
 We generate relations of the form:
-```
-[u]G+[v]Q=∑a
-i
-	​
 
-P
-i
-	​
-```
+:contentReference[oaicite:3]{index=3}
 
 where:
-```
-P
-i
-	​
 
-∈F
-k
-​
-```
-coefficients lie in Z/NZ
+- \(P_i \in F_k\)  
+- coefficients lie in \( \mathbb{Z}/N\mathbb{Z} \)
 
-These relations form a sparse linear system.
+These relations form a **sparse linear system**.
 
-🧠 Algorithm (Conceptual)
-Step 1 — Isogeny Path Construction
+---
 
-Build a controlled chain of ℓ-isogenies:
+## 🧠 Algorithm (Conceptual)
 
-from base curve E₀
-to target curve Eₖ
-Step 2 — Lift Points
+### Step 1 — Isogeny Path Construction
+Construct a controlled chain of ℓ-isogenies:
 
-Map:
+:contentReference[oaicite:4]{index=4}
 
-base points → lifted curve Eₖ
-Step 3 — Relation Sampling
+---
 
+### Step 2 — Lift Points
+Map base curve points to the lifted curve:
+
+- \(E_0 \rightarrow E_k\)
+
+---
+
+### Step 3 — Relation Sampling
 Generate random combinations:
-```
-[u]G + [v]Q
 
-```
-test for smooth decomposition
-Step 4 — Linear Algebra
+:contentReference[oaicite:5]{index=5}
 
-Solve sparse system:
+and test whether the result decomposes over the factor base.
 
-Wiedemann / Lanczos methods
-over Z/NZ
-Step 5 — Log Reconstruction
+---
 
-Recover discrete logarithm via back-substitution.
+### Step 4 — Linear Algebra
+Solve the resulting sparse system using:
 
-🧪 Experimental Setup (Toy Model)
+- Wiedemann algorithm  
+- Lanczos method  
+- arithmetic over \( \mathbb{Z}/N\mathbb{Z} \)
+
+---
+
+### Step 5 — Log Reconstruction
+Recover the discrete logarithm via back-substitution over collected relations.
+
+---
+
+## 🧪 Experimental Setup (Toy Model)
 
 This framework can be tested on:
 
-small prime fields (p ≈ 10²–10⁴)
-low-degree isogenies (ℓ = 2,3,5)
-genus-2 toy Jacobians
-simplified curve families
-📉 Security Analysis
-Why this does NOT break secp256k1
+- small prime fields \(p \approx 10^2 - 10^4\)  
+- low-degree isogenies (ℓ = 2, 3, 5)  
+- genus-2 toy Jacobians  
+- simplified algebraic curve families  
 
-secp256k1 resists this framework because:
+Goal: empirical study of smoothness bias and relation density.
 
-❌ No known efficient isogeny navigation
+---
 
-No polynomial-time pathfinding in its isogeny graph.
+## 📉 Security Analysis
 
-❌ No proven smoothness bias
+### Why this does NOT break secp256k1
 
-Heuristic assumption remains unverified.
+secp256k1 remains secure because:
 
-❌ Factor base explosion
+- ❌ No known efficient isogeny navigation  
+- ❌ No proven smoothness bias  
+- ❌ Factor base explosion in large fields  
 
-Size scales beyond feasible bounds:
-```
-∣F
-k
-	​
+:contentReference[oaicite:6]{index=6}
 
-∣≈L
-p
+- ❌ Jacobian arithmetic becomes infeasible at scale  
 
-```
+---
 
-(1/3)≫practical limits
-
-❌ Jacobian arithmetic cost
-
-Becomes intractable for large genus.
-
-🔬 Related Work
+## 🔬 Related Work
 
 This framework is inspired by:
 
-Index calculus (Adleman, DeMarrais, Huang)
-Semaev summation polynomials
-Gaudry’s ECC index calculus
-Diem’s function field attacks
-Isogeny-based cryptography (SIDH/SIKE)
-Weil descent attacks
-🚧 Open Problems
-Formal proof of smoothness bias in lifted spaces
-Complexity of isogeny navigation in structured families
-Efficient divisor representation in high-genus Jacobians
-Scalable sparse linear algebra over large modulus fields
-Construction of “rich” isogeny endpoints
-🔮 Research Direction
+- Index calculus (Adleman, DeMarrais, Huang)  
+- Semaev summation polynomials  
+- Gaudry’s elliptic curve index calculus  
+- Diem’s function field attacks  
+- Isogeny-based cryptography (SIDH/SIKE)  
+- Weil descent attacks  
+
+---
+
+## 🚧 Open Problems
+
+- Formal proof of smoothness bias in lifted representations  
+- Complexity of isogeny navigation in structured families  
+- Efficient divisor representation in high-genus Jacobians  
+- Scalable sparse linear algebra over large modulus fields  
+- Construction of “rich” isogeny endpoints  
+
+---
+
+## 🔮 Research Direction
 
 The Abelian Sieve suggests that ECC security may depend on:
 
-absence of algebraic factorization structures in lifted representations
+> the absence of algebraic factorization structures in lifted representations
 
 Future breakthroughs in:
 
-algebraic geometry
-isogeny theory
-arithmetic statistics
+- algebraic geometry  
+- isogeny theory  
+- arithmetic statistics  
 
-could significantly impact this landscape.
+could significantly reshape this landscape.
 
-📌 Conclusion
+---
 
-The Abelian Sieve does NOT provide an attack on modern elliptic curve cryptography.
+## 📌 Conclusion
 
-Instead, it defines:
+The Abelian Sieve does **not** provide an attack on modern elliptic curve cryptography.
 
-a structured research framework for exploring when ECDLP could become index-calculus-reducible under isogeny-lifted algebraic representations.
+Instead, it defines a structured research framework for exploring when:
 
-🧠 License
+> ECDLP becomes index-calculus-reducible under isogeny-lifted algebraic representations.
+
+---
+
+## 🧠 License
 
 For academic and research exploration only.
 
 No cryptographic guarantees or attack claims are made.
 
-✨ Author Notes
+---
 
-This is an exploratory model at the intersection of:
+## ✨ Author Notes
 
-algebraic geometry
-computational number theory
-cryptographic hardness assumptions
+This work sits at the intersection of:
 
-It is intended as a foundation for further theoretical research, not practical exploitation.
+- algebraic geometry  
+- computational number theory  
+- cryptographic hardness assumptions  
+
+It is intended as a foundation for theoretical exploration, not practical exploitation.
