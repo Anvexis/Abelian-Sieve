@@ -97,6 +97,7 @@ On a target curve \(E_k\), we define:
 
 ```text
 F_k = { P ∈ E_k(F_q) | x(P) < B }
+```
 
 Where:
 
